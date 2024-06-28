@@ -148,7 +148,7 @@ class FilesConnection(ExperimentalBaseConnection["AbstractFileSystem"]):
             if "connection_name" in kwargs:
                 kwargs.pop("connection_name")
 
-            with self.open(path, "rt") as f:
+            with self.open(path, "rt", encoding=kwargs.get("encoding")) as f:
                 return pd.read_csv(f, **kwargs)
 
         @cache_data(ttl=ttl, show_spinner="Running `files.read(...)`.")
@@ -166,7 +166,7 @@ class FilesConnection(ExperimentalBaseConnection["AbstractFileSystem"]):
             if "connection_name" in kwargs:
                 kwargs.pop("connection_name")
 
-            with self.open(path, "rt") as f:
+            with self.open(path, "rt", encoding=kwargs.get("encoding")) as f:
                 return json.load(f, **kwargs)
 
         @cache_data(ttl=ttl, show_spinner="Running `files.read(...)`.")
@@ -175,7 +175,7 @@ class FilesConnection(ExperimentalBaseConnection["AbstractFileSystem"]):
                 kwargs.pop("connection_name")
 
             kwargs['lines'] = True
-            with self.open(path, "rt") as f:
+            with self.open(path, "rt", encoding=kwargs.get("encoding")) as f:
                 return pd.read_json(f, **kwargs)
 
         # Try to infer input_format from file extension if missing
